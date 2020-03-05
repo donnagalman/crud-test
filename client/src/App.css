@@ -1,5 +1,6 @@
 .container {
   background-color: #f2f2f2;
+  text-align: center;
 }
 
 .blog-item {
@@ -7,7 +8,7 @@
   display: inline-block;
   background-color: #ffffff;
   padding: 30px;
-  margin: 20px 10px;
+  margin: 10px;
   box-shadow: 2px 2px 20px #cecece;
 }
 
@@ -35,6 +36,7 @@
   font-size: 18px;
   line-height: 32px;
   color: #979797;
+  text-align: left;
 }
 
 .blog-item__like-comment {

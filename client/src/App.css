@@ -1,10 +1,11 @@
-.container {
+.container-fluid {
   background-color: #f2f2f2;
   text-align: center;
 }
 
 .blog-item {
-  max-width: 350px;
+  min-height: 380px;
+  width: 350px;
   display: inline-block;
   background-color: #ffffff;
   padding: 30px;
@@ -15,6 +16,7 @@
 .blog-item__header {
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .blog-item__header h1 {
@@ -22,6 +24,19 @@
   margin: 0;
   color: #6c01a3;
 }
+
+.blog-item__header .div-left {
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: 55px 55px;
+}
+
+.blog-item__header .div-left .btn {
+  padding: 5px;
+  font-size: 12px;
+  width: 50px;
+}
+
 
 .blog-item__header .icon {
   margin-left: auto;
@@ -35,12 +50,13 @@
 .blog-item__body p {
   font-size: 18px;
   line-height: 32px;
-  color: #979797;
+  color: #4c4c4c;
   text-align: left;
 }
 
 .blog-item__like-comment {
   display: flex;
+  color: #979797;
 }
 
 .blog-item__like-comment div{
@@ -55,7 +71,7 @@
 
 .blog-item__like-comment div .svg-inline--fa {
   margin-right: 10px;
-  color: #121216
+  color: #f27396;
 }
 
 .blog-item__like-comment div:first-child {
@@ -78,8 +94,17 @@
 
 .blog-item__author .blog-item__author-image img {
   border-radius: 50%;
+  height: 40px;
 }
 
 .blog-item__author .blog-item__author-name {
   font-weight: bold;
+  color: #4c4c4c;
+  margin: 0;
+}
+
+.add-container .btn-success{
+  float: none !important;
+  margin: 20px;
+
 }

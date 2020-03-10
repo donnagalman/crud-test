@@ -1,80 +1,58 @@
 import React, { useEffect, useState } from "react";
-import './App.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faThumbsUp, faPencilAlt, faCircle, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
-import axios from "axios";
-import styled from 'styled-components'
+import ModalForm from "./Components/Modal";
+import BlogItem from "./Components/BlogItem";
+import "bootstrap/dist/css/bootstrap.css";
+import "./App.css";
 
-const BlogItemContainer = styled.div`
- padding: 20px
-`;
+function App(props) {
+  const [blogItems, setBlogItems] = useState([]);
 
-function Blog() {
-  const [blogItem, setBlogItem] = useState([]);
-
-  useEffect(() => {
-    const fetchItems = async () => {
-      const response = await axios.get("/cards");
-      console.log("data", response);
-      setBlogItem(response.data.data);
-    };
-    fetchItems();
-  }, []);
-
-  const onDeleteClick = () => {
-    alert("Delete Btn");
+  const getItems = () => {
+    fetch("/cards")
+      .then(response => response.json())
+      .then(items => setBlogItems(items.data))
+      .catch(err => console.log(err));
   };
 
+  const addItemToState = item => {
+    setBlogItems([...blogItems, item]);
+  };
+
+  const updateState = item => {
+    const itemIndex = blogItems.findIndex(data => data.id === item.data.id);
+    const newArray = [
+      ...blogItems.slice(0, itemIndex),
+      item,
+      ...blogItems.slice(itemIndex + 1)
+    ];
+    setBlogItems(newArray);
+  };
+
+  const deleteItemFromState = id => {
+    const updatedItems = blogItems.filter(item => item.id !== id);
+    setBlogItems(updatedItems);
+  };
+
+  useEffect(() => {
+    getItems();
+  }, []);
+
   return (
-    <div className="container">
-    <BlogItemContainer>
-      {blogItem.map((item, index) => {
-        return (
-          <div key={index} className="blog-item">
+    <div className="container-fluid">
+      <div className="add-container">
+      <ModalForm buttonLabel="Add Blog" addItemToState={addItemToState}  />
+      </div>
 
-            <div className="blog-item__header">
-              <h1>{item.title}</h1>
-              <div className="icon">
-                <FontAwesomeIcon icon={faCircleNotch} />
-                <button onClick={onDeleteClick}> <FontAwesomeIcon icon={faPencilAlt} /> </button>
-              </div>
-            </div>
-
-            <div className="blog-item__body">
-              <p>{item.message}</p>
-            </div>
-
-            <div className="blog-item__like-comment">
-              <div>
-                <FontAwesomeIcon icon={faHeart} />  
-                <span>{item.like_count}</span>
-              </div>
-
-              <div>
-                <span>{item.comment_count} Comments</span> 
-              </div>
-              
-            </div>
-
-            <div className="blog-item__author">
-              <div className="blog-item__author-image">
-                <img src="https://i.pravatar.cc/40?img=47"></img>
-
-              </div>
-
-              <div className="blog-item__author-name">
-                 <p>{item.author.first_name} {item.author.last_name}</p>
-              </div>
-            </div>
-           
-            
-          </div>
-        );
-      })}
-
-      </BlogItemContainer>
+      <div className="blog-container">
+        <BlogItem
+          blogItems={blogItems}
+          deleteItemFromState={deleteItemFromState}
+          updateState={updateState}
+        />
+      </div>
     </div>
+  
   );
 }
 
-export default Blog;
+export default App;
